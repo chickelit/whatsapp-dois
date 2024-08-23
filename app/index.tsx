@@ -4,9 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomButton from "@/components/CustomButton";
 import images from "@/constants/images";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
+import { useUserStore } from "@/store/useUserStore";
 
 const Home = () => {
+  const userStore = useUserStore();
+
+  if (userStore.user) return <Redirect href="/chats" />;
+
   return (
     <SafeAreaView className="bg-mirage-950 h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>

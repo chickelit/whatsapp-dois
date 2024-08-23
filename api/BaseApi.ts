@@ -1,4 +1,4 @@
-import { FormType, FormTypeWithError } from "@/typescript/utils/FormType";
+import { FormType, FormTypeWithError } from "@/types/FormType";
 
 export class BaseApi {
   protected static _sanitize<T>(form: FormType<T> | FormTypeWithError<T>) {
