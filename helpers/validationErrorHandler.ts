@@ -1,6 +1,5 @@
-import React, { SetStateAction } from "react";
-import { FormTypeWithError } from "@/typescript/utils/FormType";
-import { ReactState } from "@/typescript/utils/ReactState";
+import { ReactState } from "@/types/ReactState";
+import { FormTypeWithError } from "@/types/FormType";
 
 export function validationErrorHandler<FT>(state: ReactState<FormTypeWithError<FT>>, details: { path: string[]; message: string }[]) {
   const [value, setValue] = state;

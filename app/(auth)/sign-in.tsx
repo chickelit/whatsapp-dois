@@ -4,9 +4,10 @@ import FormField from "@/components/FormField";
 import images from "@/constants/images";
 import { SecureStore } from "@/helpers/SecureStore";
 import { validationErrorHandler } from "@/helpers/validationErrorHandler";
-import { FormTypeWithError } from "@/typescript/utils/FormType";
+import { useUserStore } from "@/store/useUserStore";
+import { FormTypeWithError } from "@/types/FormType";
 import { Link, router } from "expo-router";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -20,24 +21,36 @@ const SignIn = () => {
       value: "",
     },
   });
+  const userStore = useUserStore();
+
+  useEffect(() => {
+    if (userStore.user) router.push("/chats");
+  }, []);
 
   const submit = async () => {
     try {
+      setIsSubmitting(true);
+
       const data = await UserApi.signIn(form);
 
       await SecureStore.set("token", data.token);
 
-      router.push("/(tabs)/chats");
+      userStore.setUser(data.user);
+      router.push("/chats");
     } catch (error: any) {
+      console.log(JSON.stringify(error, null, 2));
       if (error.response?.data?.statusCode === 422) return validationErrorHandler([form, setForm], error.response.data.details);
 
-      if (error.response.status === 503) {
+      if (error.response?.status === 503) {
         Alert.alert("Erro!", "O serviço está indisponível.");
 
         return;
       }
 
+      console.log(error.response?.data);
       Alert.alert("Erro!", error.response?.data?.message || "Erro desconhecido");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

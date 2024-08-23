@@ -4,9 +4,10 @@ import FormField from "@/components/FormField";
 import images from "@/constants/images";
 import { SecureStore } from "@/helpers/SecureStore";
 import { validationErrorHandler } from "@/helpers/validationErrorHandler";
-import { FormTypeWithError } from "@/typescript/utils/FormType";
+import { useUserStore } from "@/store/useUserStore";
+import { FormTypeWithError } from "@/types/FormType";
 import { Link, router } from "expo-router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -23,6 +24,7 @@ const SignUp = () => {
       value: "",
     },
   });
+  const userStore = useUserStore();
 
   const submit = async () => {
     setIsSubmitting(true);
@@ -32,11 +34,12 @@ const SignUp = () => {
 
       await SecureStore.set("token", data.token);
 
-      router.push("/(tabs)/chats");
+      userStore.setUser(data.user);
+      router.push("/chats");
     } catch (error: any) {
       if (error.response?.data?.statusCode === 422) return validationErrorHandler([form, setForm], error.response.data.details);
 
-      if (error.response.status === 503) {
+      if (error.response?.status === 503) {
         Alert.alert("Erro!", "O serviço está indisponível.");
 
         return;
