@@ -36,15 +36,15 @@ const TabsLayout = () => {
           options={{
             title: "Conversas",
             headerShown: false,
-            tabBarIcon: ({ focused, color, size }) => <TabIcon icon={icons.bookmark} focused={focused} color={color} name="Conversas" />,
+            tabBarIcon: ({ focused, color, size }) => <TabIcon icon={icons.messages} focused={focused} color={color} name="Conversas" />,
           }}
         />
         <Tabs.Screen
-          name="search/[query]"
+          name="friendships"
           options={{
-            title: "Encontrar",
+            title: "Amizades",
             headerShown: false,
-            tabBarIcon: ({ focused, color, size }) => <TabIcon icon={icons.search} focused={focused} color={color} name="Encontrar" />,
+            tabBarIcon: ({ focused, color, size }) => <TabIcon icon={icons.highFive} focused={focused} color={color} name="Amizades" />,
           }}
         />
         <Tabs.Screen

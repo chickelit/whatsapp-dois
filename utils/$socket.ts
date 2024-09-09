@@ -25,3 +25,7 @@ $socket.on("connection-successful", () => {
     messageState.setMessages([data.message, ...messageState.messages]);
   });
 });
+
+$socket.on("disconnect", () => {
+  console.log("Disconnecting socket");
+});

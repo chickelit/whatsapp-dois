@@ -1,18 +1,24 @@
-import { Image, ScrollView, Text, View } from "react-native";
+import { FlatList, Image, ScrollView, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ChatApi } from "@/api/ChatApi";
 import ChatCard from "@/components/ChatCard";
 import { useChatStore } from "@/store/useChatStore";
 import images from "@/constants/images";
+import TabHeader from "@/components/TabHeader";
+import CustomLoadingBar from "@/components/CustomLoadingBar";
+import { useLoadingStore } from "@/store/useLoadingStore";
 
 const Chats = () => {
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);
+  const setIsLoading = useLoadingStore((store) => store.setIsLoading);
 
   useEffect(() => {
     {
       (async () => {
+        setIsLoading(true);
+
         try {
           const { chats } = await ChatApi.index();
 
@@ -20,20 +26,21 @@ const Chats = () => {
         } catch (error: any) {
           console.log(JSON.stringify(error.response?.data, null, 2));
         }
+
+        setIsLoading(false);
       })();
     }
   }, []);
 
   return (
     <SafeAreaView className="h-screen w-screen bg-primary">
-      <View className="px-4 border-b border-solid border-y-black-200">
-        <Image source={images.logo} className="w-[130px] h-[84px]" resizeMode="contain" />
-      </View>
-      <ScrollView>
-        <View className="h-screen w-screen p-4 items-center">
-          {chats.map((chat) => (
-            <ChatCard key={chat.id + Math.random()} chat={chat} otherStyles="border-[1px] border-transparent mb-6" />
-          ))}
+      <TabHeader>
+        <CustomLoadingBar />
+        <Text className="h-min text-2xl font-psemibold text-white">Conversas</Text>
+      </TabHeader>
+      <ScrollView horizontal>
+        <View className="w-screen h-screen p-4 items-center">
+          <FlatList className="w-full" data={chats} renderItem={({ item }) => <ChatCard chat={item} />} />
           <Text className="text-sm text-gray-500">Não tem mais conversas.</Text>
         </View>
       </ScrollView>

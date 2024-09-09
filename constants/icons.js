@@ -11,6 +11,10 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
+import bellPointy from "../assets/icons/bell-pointy.png";
+import bellRounded from "../assets/icons/bell-rounded.png";
+import messages from "../assets/icons/messages.png";
+import highFive from "../assets/icons/high-five.png";
 
 export default {
   play,
@@ -26,4 +30,8 @@ export default {
   logout,
   eyeHide,
   eye,
+  bellPointy,
+  bellRounded,
+  messages,
+  highFive,
 };

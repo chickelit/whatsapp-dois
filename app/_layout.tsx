@@ -6,7 +6,6 @@ import "react-native-reanimated";
 import { SecureStore } from "@/helpers/SecureStore";
 import { UserApi } from "@/api/UserApi";
 import { useUserStore } from "@/store/useUserStore";
-import { useChatStore } from "@/store/useChatStore";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,12 +49,14 @@ const RootLayout = () => {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="chat" options={{ headerShown: false }} />
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-    </Stack>
+    <>
+      <Stack>
+        <Stack.Screen name="chat" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      </Stack>
+    </>
   );
 };
 
