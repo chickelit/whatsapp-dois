@@ -5,6 +5,7 @@ import images from "@/constants/images";
 import { router } from "expo-router";
 import { useChatStore } from "@/store/useChatStore";
 import dayjs from "dayjs";
+import Avatar from "./Avatar";
 
 interface IProps {
   otherStyles?: string;
@@ -30,21 +31,15 @@ const ChatCard = ({ otherStyles, chat }: IProps) => {
         chatStore.setChat(chat);
         router.push("/chat");
       }}
-      className={`w-full flex flex-row space-x-3 items-center cursor-pointer ${otherStyles}`}
+      className={`flex-row space-x-2`}
     >
-      <View className="rounded-full border-[2px] border-solid border-secondary p-[3px]">
-        <Image source={images.profile} className="w-12 h-12 rounded-full" resizeMode="contain" />
-      </View>
-      <View className="max-w-full flex-grow">
-        <View className="flex-row justify-between items-center">
+      <Avatar source={{ uri: chat.participants[0].avatar }} />
+      <View className="flex-1">
+        <View className="flex-row items-center justify-between">
           <Text className="text-lg font-psemibold text-white">{chat.participants[0].username}</Text>
           <Text className="text-sm font-psemibold text-gray-400">{parsedDate}</Text>
         </View>
-        <Text
-          className="text-base font-pmedium text-gray-400 max-w-[87%] border-1 border-solid border-red-700"
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
+        <Text className="text-base font-pmedium text-gray-400" numberOfLines={1}>
           {chat.latestMessage?.text}
         </Text>
       </View>
