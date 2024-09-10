@@ -15,6 +15,7 @@ import bellPointy from "../assets/icons/bell-pointy.png";
 import bellRounded from "../assets/icons/bell-rounded.png";
 import messages from "../assets/icons/messages.png";
 import highFive from "../assets/icons/high-five.png";
+import cross from "../assets/icons/cross.png";
 
 export default {
   play,
@@ -34,4 +35,5 @@ export default {
   bellRounded,
   messages,
   highFive,
+  cross,
 };

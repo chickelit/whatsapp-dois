@@ -45,7 +45,7 @@ const TabsLayout = () => {
             title: "Amizades",
             headerShown: false,
             tabBarIcon: ({ focused, color, size }) => <TabIcon icon={icons.highFive} focused={focused} color={color} name="Amizades" />,
-          }}
+          }} 
         />
         <Tabs.Screen
           name="profile"

@@ -1,4 +1,5 @@
 import { Message } from "@/models/Message";
+import { User } from "@/models/User";
 import { useChatStore } from "@/store/useChatStore";
 import { useMessageStore } from "@/store/useMessageStore";
 import { io } from "socket.io-client";
@@ -12,11 +13,14 @@ $socket.on("connect_error", (error) => {
 $socket.on("connection-successful", () => {
   console.log("Socket connected");
 
-  $socket.on("frontend.new-message", (data: { message: Message }) => {
-    console.log(data);
+  $socket.on("frontend.new-message", (data: { message: Message; from: User }) => {
     const state = useChatStore.getState();
-    const messageState = useMessageStore.getState();
+    const chat = state.chats.find((c) => c.id === data.message.chat!.id);
     const rest = state.chats.filter((c) => c.id !== data.message.chat!.id);
+
+    data.message.chat!.participants = chat!.participants;
+
+    const messageState = useMessageStore.getState();
 
     state.setChats([data.message.chat!, ...rest]);
 

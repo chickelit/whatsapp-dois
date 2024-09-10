@@ -6,6 +6,7 @@ import { FriendRequest } from "@/models/FriendRequest";
 export class FriendRequestApi extends BaseApi {
   public static async index(): Promise<{
     friendRequests: FriendRequest[];
+    count: number;
   }> {
     const token = await SecureStore.get("token");
     const { data } = await $axios.get("/friend-requests", {

@@ -15,6 +15,8 @@ const Chats = () => {
   const setIsLoading = useLoadingStore((store) => store.setIsLoading);
 
   useEffect(() => {
+    if (chats.length) return;
+
     {
       (async () => {
         setIsLoading(true);
@@ -40,8 +42,13 @@ const Chats = () => {
       </TabHeader>
       <ScrollView horizontal>
         <View className="w-screen h-screen p-4 items-center">
-          <FlatList className="w-full" data={chats} renderItem={({ item }) => <ChatCard chat={item} />} />
-          <Text className="text-sm text-gray-500">Não tem mais conversas.</Text>
+          <FlatList
+            contentContainerStyle={{ gap: 16 }}
+            className="w-full"
+            data={chats}
+            ListFooterComponent={<Text className="text-center text-sm text-gray-500">Não tem mais conversas.</Text>}
+            renderItem={({ item }) => <ChatCard chat={item} />}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

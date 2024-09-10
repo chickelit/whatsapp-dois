@@ -9,7 +9,7 @@ type Props = {
 
 const TabHeader = (props: Props) => {
   return (
-    <View className="px-3 h-[84px] border-b border-solid border-y-black-200 flex flex-row items-center space-x-2">
+    <View className="px-3 h-[84px] border-b border-solid border-y-black-200 flex flex-row items-center space-x-3">
       {props.back && (
         <TouchableOpacity onPress={() => router.push(props.back!)}>
           <Image source={icons.leftArrow} />

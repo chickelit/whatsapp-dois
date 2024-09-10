@@ -14,8 +14,6 @@ const Profile = () => {
   const user = useUserStore((store) => store.user);
   const setUser = useUserStore((store) => store.setUser);
 
-  console.log(user);
-
   return (
     <SafeAreaView className="h-screen w-screen bg-primary relative">
       <TabHeader>
