@@ -33,10 +33,10 @@ const ChatCard = ({ otherStyles, chat }: IProps) => {
       }}
       className={`flex-row space-x-2`}
     >
-      <Avatar source={{ uri: chat.participants[0].avatar }} />
+      <Avatar source={{ uri: chat.display?.image }} />
       <View className="flex-1">
         <View className="flex-row items-center justify-between">
-          <Text className="text-lg font-psemibold text-white">{chat.participants[0].username}</Text>
+          <Text className="text-lg font-psemibold text-white">{chat.display?.title}</Text>
           <Text className="text-sm font-psemibold text-gray-400">{parsedDate}</Text>
         </View>
         <Text className="text-base font-pmedium text-gray-400" numberOfLines={1}>

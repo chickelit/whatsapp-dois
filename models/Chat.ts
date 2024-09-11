@@ -11,4 +11,8 @@ export type Chat = {
   type: ChatTypes;
   participants: User[];
   latestMessage?: Message;
+  display: {
+    image?: string;
+    title: string;
+  };
 };

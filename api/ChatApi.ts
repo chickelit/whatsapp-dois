@@ -16,4 +16,15 @@ export class ChatApi extends BaseApi {
 
     return data;
   }
+
+  public static async show(id: string): Promise<Chat | undefined> {
+    const token = await SecureStore.get("token");
+    const { data } = await $axios.get(`/chats/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  }
 }

@@ -15,10 +15,7 @@ $socket.on("connection-successful", () => {
 
   $socket.on("frontend.new-message", (data: { message: Message; from: User }) => {
     const state = useChatStore.getState();
-    const chat = state.chats.find((c) => c.id === data.message.chat!.id);
     const rest = state.chats.filter((c) => c.id !== data.message.chat!.id);
-
-    data.message.chat!.participants = chat!.participants;
 
     const messageState = useMessageStore.getState();
 

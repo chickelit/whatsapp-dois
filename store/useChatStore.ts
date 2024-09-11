@@ -5,7 +5,7 @@ type Store = {
   chats: Chat[];
   chat?: Chat;
   setChats: (chats: Chat[]) => void;
-  setChat: (chat: Chat) => void;
+  setChat: (chat: Chat | undefined) => void;
 };
 
 export const useChatStore = create<Store>((set) => ({

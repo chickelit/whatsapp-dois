@@ -12,6 +12,10 @@ import { useLoadingStore } from "@/store/useLoadingStore";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { router } from "expo-router";
+import { ChatApi } from "@/api/ChatApi";
+import { useChatStore } from "@/store/useChatStore";
+import { User } from "@/models/User";
+import { ChatTypes } from "@/models/Chat";
 
 const Notifications = () => {
   const friendRequests = useFriendRequestStore((store) => store.friendRequests);
@@ -21,6 +25,7 @@ const Notifications = () => {
   const friends = useFriendStore((store) => store.friends);
   const setFriends = useFriendStore((store) => store.setFriends);
   const setIsLoading = useLoadingStore((store) => store.setIsLoading);
+  const setChat = useChatStore((store) => store.setChat);
 
   useEffect(() => {
     if (friendRequests.length) return;
@@ -97,7 +102,30 @@ const Notifications = () => {
                 <Text className="text-lg text-gray-50 font-psemibold">{item.username}</Text>
               </View>
               <View className="flex flex-row items-center space-x-2">
-                <TouchableOpacity className="bg-[#ffffff10] bg-opacity-[0.5] px-4 py-1 rounded">
+                <TouchableOpacity
+                  className="bg-[#ffffff10] bg-opacity-[0.5] px-4 py-1 rounded"
+                  onPress={async () => {
+                    try {
+                      const chat = await ChatApi.show(item.id);
+
+                      setChat(
+                        chat || {
+                          id: "",
+                          participants: [item] as User[],
+                          type: ChatTypes.Private,
+                          display: {
+                            title: item.username,
+                            image: item.avatar,
+                          },
+                        }
+                      );
+
+                      router.push("/chat");
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }}
+                >
                   <Text className="text-white font-pmedium text-sm">Mensagem</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="">

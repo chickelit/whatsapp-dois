@@ -30,6 +30,8 @@ import Avatar from "@/components/Avatar";
 
 const Chat = () => {
   const chatStore = useChatStore();
+  const chat = useChatStore((s) => s.chat);
+  const setChat = useChatStore((s) => s.setChat);
   const user = useUserStore((state) => state.user);
   const messages = useMessageStore((state) => state.messages);
   const setMessages = useMessageStore((state) => state.setMessages);
@@ -37,18 +39,24 @@ const Chat = () => {
   const [content, setContent] = useState("");
   const scrollRef = useRef<ScrollView>(null);
 
-  if (!chatStore.chat) return <Redirect href="/chats" />;
+  if (!chat) return <Redirect href="/chats" />;
 
   const submit = async () => {
     if (!content) return;
 
     try {
       const data = await MessageApi.store({
-        chatId: chatStore.chat!.id,
+        chatId: chat?.id,
+        userId: chat?.participants[0].id,
         message: {
           text: content,
         },
       });
+
+			console.log("HELLO, IM API RESPONSE")
+			console.log(data.chat)
+
+      setChat(data.chat);
     } catch (error) {
       console.log(JSON.stringify(error, null, 2));
     } finally {
@@ -59,10 +67,12 @@ const Chat = () => {
   useEffect(() => {
     {
       (async () => {
+        if (!chat.id) return;
+
         try {
           setIsLoading(true);
 
-          const { messages } = await MessageApi.index(chatStore.chat!.id, { page: 1, perPage: 50 });
+          const { messages } = await MessageApi.index(chat.id, { page: 1, perPage: 50 });
 
           setMessages(messages);
         } catch (error) {
@@ -82,9 +92,9 @@ const Chat = () => {
         <TabHeader back="/chats">
           <CustomLoadingBar />
           <View className="flex flex-row items-center space-x-2">
-            <Avatar source={{ uri: chatStore.chat.participants[0].avatar }} />
+            <Avatar source={{ uri: chat.display?.image }} />
             <View>
-              <Text className="text-white text-base font-psemibold">{chatStore.chat!.participants[0].username}</Text>
+              <Text className="text-white text-base font-psemibold">{chat.display?.title}</Text>
               {/* TODO: This status is not a real information :) */}
               <Text className="text-sm text-gray-100 font-medium">Online</Text>
             </View>
